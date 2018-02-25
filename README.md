@@ -24,10 +24,11 @@ JTAG INTERFACE PINOUT
 =====================
 
 This is defined in ports.h:
-  TCK PB6 OUTPUT
-  TMS PB7 OUTPUT
-  TDI PB8 OUTPUT
-  TDO PB9 Input with internal pullup
+
+- **TCK** -- PB6 (output)
+- **TMS** -- PB7 (output)
+- **TDI** -- PB8 (output)
+- **TDO** -- PB9 (input with internal pullup)
 
 WARNING
 =======
