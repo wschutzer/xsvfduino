@@ -1,5 +1,7 @@
 ///
-// A XSVF player for the Arduino
+// An XSVF player for the Arduino
+//
+// Tested with the STM32 Arduino clone known as the Blue Pill
 //
 
 #if MENU_SERIAL != SerialUSB
