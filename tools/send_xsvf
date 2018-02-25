@@ -97,6 +97,9 @@ def program(xsvf_filename, port, bps):
     elif command == 'G':
       maybe_print_lf()
       print 'Device:', text
+      if text[0:4] == 'ERROR':
+        print 'Received an ERROR. Stop.'
+        break
 #   elif command == '!':
 #     maybe_print_lf()
 #     print 'IMPORTANT:', text
