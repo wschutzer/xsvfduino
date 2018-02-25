@@ -40,3 +40,6 @@ DISCLAIMER
 ==========
 Use it at your own risk and don't blame me if it bricks your beloved CPLD/FPGA, or if it scares your dog, etc. It probably just won't work, but who knows?
 
+CREDITS
+=======
+This project was inspired by Mike Tsao's [JTAGWhispeer](https://github.com/sowbug/JTAGWhisperer) which sadly seems to have been discontinued. Mine is a crude attempt at picking up where Mike has left off.
