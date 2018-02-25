@@ -17,7 +17,7 @@ INSTRUCTIONS
 6. On the same menu, choose your upload method. I find the ST-Link method to be the easiest, but look here for other options: https://medium.com/@paramaggarwal/converting-an-stm32f103-board-to-a-black-magic-probe-c013cf2cc38c
 7. Unplug the ST-Link programmer if you are using one, and then plug the Blue Pill to your computer with a USB cable. It should be seen as a new serial device. On OSX this is something like /dev/tty.usbmodem1411, and on Linux something like /dev/ttyACM0. I'm not sure how this works on Windows, but I guess a new COM port should present itself to you.
 8. Find the send_xsvf tool on the tools folder. This a Python script to upload a file to the xsvfduino.
-9. Assuming Upload your XSVF file using a command like this:
+9. Upload your XSVF file using a command like this:
 `./send_xsvf -p /dev/tty.your_arduino_serial_port somefile.xsvf`
 
 JTAG INTERFACE PINOUT
