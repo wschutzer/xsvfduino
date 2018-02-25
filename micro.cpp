@@ -457,6 +457,7 @@ int xsvfInfoInit( SXsvfInfo* pXsvfInfo )
 *****************************************************************************/
 void xsvfInfoCleanup( SXsvfInfo* pXsvfInfo )
 {
+  Serial.print("QINFO: Stop sending data\n");
 }
 
 /*****************************************************************************

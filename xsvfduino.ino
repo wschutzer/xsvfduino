@@ -17,6 +17,10 @@ int8_t xsvf_buf_ptr = 32, xsvf_buf_len = 0;
 #include "micro.h"
 #include <stdio.h>
 #include <stdarg.h>
+#include <setjmp.h>
+
+bool ongoing = false; // Is there an ongoing transmission?
+jmp_buf glb_jmp_buf;
 
 void debug_printf(char *format,...)
 {
@@ -27,13 +31,18 @@ void debug_printf(char *format,...)
   va_end(args);
   Serial.print('G');
   Serial.print(buf);
+  Serial.flush();
+  yield();
+  if ( !strncmp(buf, "ERROR", 5) )
+    longjmp(glb_jmp_buf, 1);
 }
 
 uint8_t read_data()
 {
   if (xsvf_buf_ptr < xsvf_buf_len)
     return xsvf_buf[xsvf_buf_ptr++];
-  Serial.println("A"); // Todo: send extra info with the ack (debug info?)
+  if (ongoing)
+    Serial.println("A"); // Todo: send extra info with the ack (debug info?)
   xsvf_buf_len = -1;
   xsvf_buf_ptr = 0;
   while(xsvf_buf_len < 32)
@@ -53,15 +62,19 @@ uint8_t read_data()
         {
           return xsvf_buf[xsvf_buf_ptr++]; // Yes, return it
         }
-        // else
-        // {
-        //  Serial.println('A'); // Buffer stil empty, ask for more
-        //  t0 = millis();
-        // }
+        else
+          if (ongoing && t2 - t0 > 3000)
+            {
+              Serial.print("QINFO: Timeout waiting for a packet. (End of Data?)\n");
+              Serial.flush();
+              yield();
+              longjmp(glb_jmp_buf, 1); // Waiting for too long, reset the engine
+            }
       }
       yield();
     }
     uint8_t c = Serial.read();
+    ongoing = true;
     if (xsvf_buf_len < 0)
     {
       if (c == 'D')  // Data packet TODO: packet numbering and CRC checking
@@ -100,5 +113,7 @@ String buf;
 
 void loop() 
 {
-  xsvfExecute();
+  ongoing = false;
+  if ( !setjmp(glb_jmp_buf) )
+    xsvfExecute();
 }
