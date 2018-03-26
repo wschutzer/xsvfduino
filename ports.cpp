@@ -11,23 +11,33 @@
 /*******************************************************/
 #include "ports.h"
 /*#include "prgispx.h"*/
-
+// #include "stm32_gpio.h"
  
-// #include "stdio.h"
-// extern FILE *in;
-static uint8_t  g_iTCK = 0; /* For xapp058_example .exe */
-static uint8_t  g_iTMS = 0; /* For xapp058_example .exe */
-static uint8_t  g_iTDI = 0; /* For xapp058_example .exe */
+static uint32_t port_ = 0;  /* Port vlaues */
 
 /*BYTE *xsvf_data=0;*/
 
+#if 1
+inline void DLY()
+{
+  asm(
+    "nop\n\t"
+    "nop\n\t"
+    "nop\n\t"
+    "nop\n\t"
+    "nop\n\t"
+  );
+}
+#else
+#define DLY()
+#endif
 
 void initPorts()
 {
   pinMode(TCK, OUTPUT);
   pinMode(TMS, OUTPUT);
   pinMode(TDI, OUTPUT);
-  pinMode(TDO, INPUT_PULLUP);  
+  pinMode(TDO, INPUT_PULLUP);
 }
 
 /* setPort:  Implement to set the named JTAG signal (p) to the new value (v).*/
@@ -40,18 +50,35 @@ void setPort(uint8_t p,uint8_t val)
     switch(p)
     {
       case TMS:
-        g_iTMS = val;
+        // g_iTMS = val;
+        if (val) port_ |= 1u << TMS_PIN; else port_ &= ~(1u << TMS_PIN);
         break;
+        
       case TDI:
-        g_iTDI = val;
+        // g_iTDI = val;
+        if (val) port_ |= 1u << TDI_PIN; else port_ &= ~(1u << TDI_PIN);
         break;
+        
       case TCK:
-        g_iTCK = val;
-        digitalWrite(TDI, g_iTDI); // Output signals are set right before the clock is set.
-        digitalWrite(TMS, g_iTMS);
-        digitalWrite(TCK, val);
-        // printf( "TCK = %d;  TMS = %d;  TDI = %d\n", g_iTCK, g_iTMS, g_iTDI );
+        // g_iTCK = val;
+        if (val) port_ |= 1u << TCK_PIN; else port_ &= ~(1u << TCK_PIN);
+#if 1      
+        // uint32_t r = GPIOB->ODR;
+        // if (g_iTMS) r |= 1u << TMS_PIN; else r &= ~(1u << TMS_PIN);
+        // if (g_iTDI) r |= 1u << TDI_PIN; else r &= ~(1u << TDI_PIN);
+        // if (g_iTCK) r |= 1u << TCK_PIN; else r &= ~(1u << TCK_PIN);
+        // GPIOB->ODR = r;
+        //GPIOB->ODR = ( GPIOB->ODR & ~( (1u << TMS_PIN) | (1u << TDI_PIN) | (1u << TCK_PIN) ) ) | port_;
+        GPIOB->regs->ODR = ( GPIOB->regs->ODR & ~( (1u << TMS_PIN) | (1u << TDI_PIN) | (1u << TCK_PIN) ) ) | port_;
+
+#else
+        digitalWrite( TMS, g_iTMS );
+        digitalWrite( TDI, g_iTDI );
+        digitalWrite( TCK, g_iTCK );
+#endif
+        DLY();
         break;
+        
     }
 }
 
@@ -83,11 +110,12 @@ void readByte(uint8_t *data)
 /*                              requirement is also satisfied.               */
 void waitTime(uint32_t microsec)
 {
-    static long tckCyclesPerMicrosec    = 1; /* must be at least 1 */
+#if 0
+    static long tckCyclesPerMicrosec    = 72/10; /* must be at least 1 */
     long        tckCycles   = microsec * tckCyclesPerMicrosec;
     long        i;
 
-#if 0
+
     /* This implementation is highly recommended!!! */
     /* This implementation requires you to tune the tckCyclesPerMicrosec 
        variable (above) to match the performance of your embedded system
@@ -96,6 +124,14 @@ void waitTime(uint32_t microsec)
     {
         pulseClock();
     }
+#endif
+
+#if 1
+   uint32_t t0 = micros();
+   while( micros()-t0 < microsec )
+   {
+      pulseClock();
+   }
 #endif
 
 #if 0
@@ -121,7 +157,7 @@ void waitTime(uint32_t microsec)
     }
 #endif
 
-#if 1
+#if 0
     /* Alternate implementation */
     /* This implementation is valid for only XC9500/XL/XV, CoolRunner/II CPLDs, 
        XC18V00 PROMs, or Platform Flash XCFxxS/XCFxxP PROMs.  

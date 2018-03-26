@@ -3,6 +3,11 @@
 //
 // Tested with the STM32 Arduino clone known as the Blue Pill
 //
+// Settings:
+//   Board: BluePill F103CB
+//   USB: Virtual COMM
+//   Serial: SerialUSB
+
 
 #if MENU_SERIAL != SerialUSB
   #error "Make sure that the SerialUSB option is selected"
@@ -24,12 +29,19 @@ jmp_buf glb_jmp_buf;
 
 void debug_printf(char *format,...)
 {
+  static bool send_g = true;
   char buf[256];
   va_list args; 
   va_start(args, format);
   vsprintf(buf, format, args);
   va_end(args);
-  Serial.print('G');
+  if (send_g)
+  {
+    Serial.print('G'); // TODO: send this only at the beginning of a line
+    send_g = false;
+  }
+  if ( strchr(buf, '\n') != NULL )
+    send_g = true;
   Serial.print(buf);
   Serial.flush();
   yield();
