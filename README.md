@@ -18,7 +18,7 @@ INSTRUCTIONS
 4. Open the xsvduino.ino on the Arduino IDE
 5. On the tools menu, use the following settings: 
    Board: "Generic STM32F103CB series"
-6. On the same menu, choose your upload method. I find the ST-Link method to be the easiest, but look there for other options: https://medium.com/@paramaggarwal/converting-an-stm32f103-board-to-a-black-magic-probe-c013cf2cc38c
+6. On the same menu, choose your upload method. I find the ST-Link method to be the easiest, but look there for other options or check out this link: https://medium.com/@paramaggarwal/converting-an-stm32f103-board-to-a-black-magic-probe-c013cf2cc38c
 7. Unplug the ST-Link programmer if you are using one, and then plug the Blue Pill to your computer with a USB cable. An LED
 starts blinking on the Blue Pill it should be seen by the OS as a new serial device. On OSX this is something like /dev/tty.usbmodem1411, and on Linux something like /dev/ttyACM0. I'm not sure how this works on Windows, but I guess a new COM port should present itself to you (hopefully).
 8. Find the send_xsvf tool on the tools folder. This a Python script to upload a file to the xsvfduino.
