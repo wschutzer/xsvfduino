@@ -41,7 +41,7 @@ This is a very early WIP, almost a proof of concept. It is working for me on an 
 
 I tried using Daniel Fekete's Generic STM32 support, but unfortunately I came accross some bug in the pinMode/digitalRead functions which caused a pin which had been set as INPUT_PULLUP to read as zero even if nothing was connected to it. Clark's package works fine.
 
-Be aware that most devices out there are 3.3V or less (some are 1.8V) and are not 5V-tolerant, so make sure you use adequate level shifters, if it's the case. The Blue Pill runs on 3.3V and my CPLD can take it, so I hooked it up directly to the GPIO ports.
+Be aware that most devices out there run on 3.3V or less (some are 1.8V) and might not be 5V-tolerant, so make sure you use adequate level shifters, if they are required for your chip. Otherwise you could see some magic smoke! The Blue Pill runs on 3.3V, the same voltage of all the CPLDs I tested, so I just hooked them up directly to the indicated GPIO pins.
 
 DISCLAIMER
 ==========
