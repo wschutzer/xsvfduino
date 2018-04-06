@@ -1,7 +1,13 @@
 xsvfduino
 =========
 
-An Arduino (currently the Blue Pill variant) as an XSVF player to program CPLD's and FPGA's based on a reference implementation by Xilinx. It works by receiving an XSVF file via the USB-serial interface, interpreting it as a sequence of instructions, and then bit banging the JTAG signals that are needed to program the target device.
+An Arduino (currently the Blue Pill variant) as an XSVF player to program CPLD's and FPGA's based on a reference implementation by Xilinx (Keep reading for Altera). It works by receiving an XSVF file via the USB-serial interface, interpreting it as a sequence of instructions, and then bit banging the JTAG signals that are needed to program the target device.
+
+I have tested and successfully programmed the following CPLDs:
+
+- Xilinx XC2C64A
+- Xilinx XC9572XL
+- Altera MAX II EPM240T100C5 (I used dangerous prototypes svf2xsvf converter to convert Altera's svf file to the compressed xsvf file, although that program doesn't claim to support this device)
 
 INSTRUCTIONS
 ============
@@ -39,7 +45,7 @@ Be aware that most devices out there are 3.3V or less (some are 1.8V) and are no
 
 DISCLAIMER
 ==========
-Use it at your own risk and don't blame me if it bricks your beloved CPLD/FPGA, or if it scares your dog, etc. It probably just won't work, but who knows?
+I am not a developer and programming is not my thing. I am posting this in the hopes that it might be useful to someone out there. Use it at your own risk and don't blame me if it bricks your beloved CPLD/FPGA, if it scares your dog, or anything. It probably just won't work as you'd expect, but who knows?
 
 CREDITS
 =======
