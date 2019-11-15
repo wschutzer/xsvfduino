@@ -33,7 +33,7 @@ This is defined in ports.h:
 - **TCK** -- PB6 (output)
 - **TMS** -- PB7 (output)
 - **TDI** -- PB8 (output)
-- **TDO** -- PB9 (input with internal pullup)
+- **TDO** -- PB5 (input with internal pullup)
 
 WARNING
 =======
