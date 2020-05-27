@@ -110,8 +110,8 @@ void readByte(uint8_t *data)
 /*                              requirement is also satisfied.               */
 void waitTime(uint32_t microsec)
 {
-#if 0
-    static long tckCyclesPerMicrosec    = 72/10; /* must be at least 1 */
+#if 1
+    static long tckCyclesPerMicrosec    = 1; /* must be at least 1 */
     long        tckCycles   = microsec * tckCyclesPerMicrosec;
     long        i;
 
@@ -126,7 +126,7 @@ void waitTime(uint32_t microsec)
     }
 #endif
 
-#if 1
+#if 0
    uint32_t t0 = micros();
    while( micros()-t0 < microsec )
    {
