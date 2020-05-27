@@ -8,6 +8,7 @@ I have tested and successfully programmed the following CPLDs:
 - Xilinx XC2C64A
 - Xilinx XC9572XL
 - Altera MAX II EPM240T100C5 (I used dangerous prototypes svf2xsvf converter to convert Altera's svf file to the compressed xsvf file, although that program doesn't claim to support this device)
+- Xilinx XC6SLX16
 
 INSTRUCTIONS
 ============
@@ -15,14 +16,15 @@ INSTRUCTIONS
 1. Know your Arduino: http://wiki.stm32duino.com/index.php?title=Blue_Pill
 2. Download the project contents somewhere on your computer.
 3. If you don't have it, install Roger Clark's support for Arduino available from https://github.com/rogerclarkmelbourne/Arduino_STM32
-4. Open the xsvduino.ino on the Arduino IDE
-5. On the tools menu, use the following settings: 
-   Board: "Generic STM32F103CB series"
-6. On the same menu, choose your upload method. I find the ST-Link method to be the easiest, but look there for other options or check out this link: https://medium.com/@paramaggarwal/converting-an-stm32f103-board-to-a-black-magic-probe-c013cf2cc38c
-7. Unplug the ST-Link programmer if you are using one, and then plug the Blue Pill to your computer with a USB cable. An LED
+4. Flash the STM32duino bootloader to enable USB Serial
+5. Open the xsvduino.ino on the Arduino IDE
+6. On the tools menu, use the following settings: 
+   Board: "Generic STM32F103C series" | Optimize : "Smallest" | Varient : 64k Flash | CPU Speed : "72MHz)
+7. On the same menu, choose your upload method. I find the ST-Link method to be the easiest, but look there for other options or check out this link: https://medium.com/@paramaggarwal/converting-an-stm32f103-board-to-a-black-magic-probe-c013cf2cc38c
+8. Unplug the ST-Link programmer if you are using one, and then plug the Blue Pill to your computer with a USB cable. An LED
 starts blinking on the Blue Pill it should be seen by the OS as a new serial device. On OSX this is something like /dev/tty.usbmodem1411, and on Linux something like /dev/ttyACM0. I'm not sure how this works on Windows, but I guess a new COM port should present itself to you (hopefully).
-8. Find the send_xsvf tool on the tools folder. This a Python script to upload a file to the xsvfduino.
-9. Upload your XSVF file using a command like this:
+9. Find the send_xsvf tool on the tools folder. This a Python script to upload a file to the xsvfduino.
+10. Upload your XSVF file using a command like this:
 `./send_xsvf -p /dev/tty.your_arduino_serial_port somefile.xsvf`
 
 JTAG INTERFACE PINOUT
@@ -33,7 +35,7 @@ This is defined in ports.h:
 - **TCK** -- PB6 (output)
 - **TMS** -- PB7 (output)
 - **TDI** -- PB8 (output)
-- **TDO** -- PB9 (input with internal pullup)
+- **TDO** -- PB5 (input with internal pullup)
 
 WARNING
 =======
