@@ -49,4 +49,4 @@ I am not a developer and programming is not my thing. I am posting this in the h
 
 CREDITS
 =======
-This project was inspired by Mike Tsao's [JTAGWhispeer](https://github.com/sowbug/JTAGWhisperer) which sadly seems to have been discontinued. Mine is a crude attempt at picking up where Mike has left off.
+This project was inspired by Mike Tsao's [JTAGWhisperer](https://github.com/sowbug/JTAGWhisperer) which sadly seems to have been discontinued. Mine is a crude attempt at picking up where Mike has left off.
